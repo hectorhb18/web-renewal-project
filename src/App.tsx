@@ -9,8 +9,9 @@ import Blog from './pages/Blog';
 import About from './pages/About';
 import Registro from './pages/Registro';
 import Plataforma from './pages/Plataforma';
+import Robot from './pages/Robot';
 
-type Route = 'home' | 'matematicas' | 'recursos' | 'cursos' | 'blog' | 'about' | 'registro' | 'plataforma';
+type Route = 'home' | 'matematicas' | 'recursos' | 'cursos' | 'blog' | 'about' | 'registro' | 'plataforma' | 'robot';
 
 function getRoute(): Route {
   const hash = window.location.hash;
@@ -21,6 +22,7 @@ function getRoute(): Route {
   if (hash.startsWith('#/about')) return 'about';
   if (hash.startsWith('#/registro')) return 'registro';
   if (hash.startsWith('#/plataforma')) return 'plataforma';
+  if (hash.startsWith('#/robot')) return 'robot';
   return 'home';
 }
 
@@ -49,6 +51,7 @@ export default function App() {
       case 'about':       return <About />;
       case 'registro':    return <Registro />;
       case 'plataforma':  return <Plataforma />;
+      case 'robot':       return <Robot />;
       default:            return <Landing />;
     }
   };
