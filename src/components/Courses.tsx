@@ -39,12 +39,12 @@ export function Courses() {
               Diseñados por expertos para garantizar tu éxito académico.
             </p>
           </div>
-          <Link 
+          <a 
             href="#" 
             className="inline-flex items-center justify-center rounded-full bg-white border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors"
           >
             Ver todos los cursos
-          </Link>
+          </a>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -56,12 +56,12 @@ export function Courses() {
               <h3 className="mb-2 text-2xl font-bold text-slate-900">{course.title}</h3>
               <p className="mb-6 text-sm font-medium text-slate-500">{course.lessons}</p>
               <p className="mb-8 text-slate-600 leading-relaxed flex-grow">{course.description}</p>
-              <Link 
+              <a 
                 href="#" 
                 className="inline-flex items-center font-semibold text-blue-600 hover:text-blue-700 transition-colors"
               >
                 Explorar curso <BookOpen className="ml-2 h-4 w-4" />
-              </Link>
+              </a>
             </div>
           ))}
         </div>

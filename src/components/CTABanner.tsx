@@ -18,13 +18,13 @@ export function CTABanner() {
               Únete a la revolución educativa en el Perú. Crea tu cuenta gratuita y comienza a mejorar tus notas desde el primer día.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
+              <a 
                 href="#" 
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-blue-600 shadow-lg transition-transform hover:scale-105"
               >
                 Crear cuenta gratis
                 <ArrowRight className="h-5 w-5" />
-              </Link>
+              </a>
             </div>
             <p className="mt-6 text-sm text-blue-100/80">
               No requiere tarjeta de crédito
