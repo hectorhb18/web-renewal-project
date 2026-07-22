@@ -19,6 +19,7 @@ const navLinks = [
   { label: 'Matemáticas', href: '#/matematicas', icon: Calculator },
   { label: 'Recursos', href: '#/recursos', icon: Library },
   { label: 'Blog', href: '#/blog', icon: Newspaper },
+  { label: 'Robot Kipu', href: '#/robot', icon: Info },
   { label: 'Nosotros', href: '#/about', icon: Info },
 ];
 
@@ -183,6 +184,7 @@ export default function Navbar() {
                     { label: '🧮 Matemáticas', href: '#/matematicas' },
                     { label: '📖 Recursos', href: '#/recursos' },
                     { label: '✍️ Blog', href: '#/blog' },
+                    { label: '🤖 Robot Kipu', href: '#/robot' },
                     { label: 'ℹ️ Nosotros', href: '#/about' },
                   ].map((link, i) => (
                     <motion.a
