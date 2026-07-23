@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, Clock, CheckCircle2, Star, ChevronRight, Play, Flame, Zap } from 'lucide-react';
+import { TrendingUp, Clock, CheckCircle2, Star, ChevronRight, Play, Flame, Zap, Wand2, Sparkles } from 'lucide-react';
 import { StoreState, getTotalStats, getWeeklyMinutes, getCourseCompletionPct } from '../../lib/store';
 import { ALL_COURSES, getTotalLessons } from '../../lib/courseData';
 
@@ -26,11 +26,19 @@ export default function Dashboard({ state, onNavigate }: Props) {
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-surface-900">
-          ¡Hola, {firstName}! 👋
-        </h1>
-        <p className="text-surface-500 text-sm mt-1">Aquí está tu progreso de hoy</p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-surface-900">
+            ¡Hola, {firstName}! 👋
+          </h1>
+          <p className="text-surface-500 text-sm mt-1">Aquí está tu progreso de hoy</p>
+        </div>
+        <button onClick={() => onNavigate('plan')}
+          className="group inline-flex items-center gap-2 bg-gradient-to-r from-primary-600 to-accent-600 hover:shadow-lg hover:shadow-primary-200/50 text-white font-semibold text-sm px-5 py-3 rounded-xl transition-all">
+          <Wand2 className="w-4 h-4" />
+          Crear Plan de Estudio Inteligente
+          <Sparkles className="w-3.5 h-3.5 opacity-80 group-hover:rotate-12 transition-transform" />
+        </button>
       </div>
 
       <div className="grid xl:grid-cols-3 gap-6">
