@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, Clock, CheckCircle2, Star, ChevronRight, Play, Flame, Zap } from 'lucide-react';
+import { TrendingUp, Clock, CheckCircle2, Star, ChevronRight, Play, Flame, Zap, Wand2, Sparkles } from 'lucide-react';
 import { StoreState, getTotalStats, getWeeklyMinutes, getCourseCompletionPct } from '../../lib/store';
 import { ALL_COURSES, getTotalLessons } from '../../lib/courseData';
 
