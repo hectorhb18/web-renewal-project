@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import {
   BookOpen, BarChart3, Sparkles, Calendar, Award,
   Menu, X, Settings, ChevronRight, LogOut, LibraryBig, Zap,
-  Moon, Sun, FlaskConical, User
+  FlaskConical, User, Wand2, Bell,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { loadState, saveState, saveUser, type StoreState } from '../lib/store';
+import { loadState, saveUser, type StoreState } from '../lib/store';
 import Dashboard from './plataforma/Dashboard';
 import MisCursos from './plataforma/MisCursos';
 import CursoViewer from './plataforma/CursoViewer';
@@ -15,8 +15,12 @@ import Logros from './plataforma/Logros';
 import BancoPreguntas from './plataforma/BancoPreguntas';
 import TacticasCiencia from './plataforma/TacticasCiencia';
 import CopilotoInvestigacion from './plataforma/CopilotoInvestigacion';
+import PlanEstudio from './plataforma/PlanEstudio';
+import Perfil from './plataforma/Perfil';
+import Configuracion from './plataforma/Configuracion';
+import Notificaciones from './plataforma/Notificaciones';
 
-type View = 'dashboard' | 'cursos' | 'curso-detail' | 'asistente' | 'horario' | 'logros' | 'banco' | 'tacticas' | 'copiloto';
+type View = 'dashboard' | 'cursos' | 'curso-detail' | 'asistente' | 'horario' | 'logros' | 'banco' | 'tacticas' | 'copiloto' | 'plan' | 'perfil' | 'config' | 'notif';
 
 function getParam(key: string) {
   try {
