@@ -139,6 +139,7 @@ export function loadState(): StoreState {
       chatHistory: parsed.chatHistory && parsed.chatHistory.length > 0 ? parsed.chatHistory : defaultState.chatHistory,
       notifications: parsed.notifications || defaultState.notifications,
       studyPlans: parsed.studyPlans || [],
+      examAttempts: parsed.examAttempts || [],
     };
     return merged;
   } catch {
