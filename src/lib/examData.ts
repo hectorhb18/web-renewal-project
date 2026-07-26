@@ -113,7 +113,7 @@ export const SAT_SECTIONS: ExamSection[] = [
       {
         id: 'm4',
         prompt: 'A shirt costs S/80 after a 20% discount. What was the original price?',
-        options: ['S/96', 'S/100', 'S/imagine 90', 'S/120'],
+        options: ['S/96', 'S/100', 'S/90', 'S/120'],
         answer: 1,
         explanation: '0.8p = 80 → p = 100.',
       },
