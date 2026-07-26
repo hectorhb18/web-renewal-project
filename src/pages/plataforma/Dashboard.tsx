@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { TrendingUp, Clock, CheckCircle2, Star, ChevronRight, Play, Flame, Zap, Wand2, Sparkles } from 'lucide-react';
-import { StoreState, getTotalStats, getWeeklyMinutes, getCourseCompletionPct } from '../../lib/store';
+import { StoreState, getTotalStats, getWeeklyMinutes, getCourseCompletionPct, getExamSummary } from '../../lib/store';
 import { ALL_COURSES, getTotalLessons } from '../../lib/courseData';
 
 interface Props {
@@ -20,6 +20,10 @@ export default function Dashboard({ state, onNavigate }: Props) {
     ...c,
     pct: getCourseCompletionPct(c.id, getTotalLessons(c)),
   })).filter((c) => c.pct > 0).slice(0, 3);
+
+  const satSummary = getExamSummary(state, 'sat');
+  const toeflSummary = getExamSummary(state, 'toefl');
+  const examAttempts = satSummary.attempts + toeflSummary.attempts;
 
   const avgNote = stats.avgScore > 0 ? (stats.avgScore / 100 * 20).toFixed(1) : '—';
 
@@ -50,7 +54,7 @@ export default function Dashboard({ state, onNavigate }: Props) {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-base font-bold text-surface-900">Tu Progreso Semanal</h2>
-                <p className="text-xs text-surface-400 mt-0.5">Minutos de estudio (por lección completada)</p>
+                <p className="text-xs text-surface-400 mt-0.5">Minutos de estudio (lecciones + exámenes internacionales)</p>
               </div>
               {stats.totalLessons > 0 && (
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full">
@@ -77,7 +81,20 @@ export default function Dashboard({ state, onNavigate }: Props) {
                 </div>
               ))}
             </div>
-            {stats.totalLessons === 0 && (
+            {examAttempts > 0 && (
+              <div className="mt-5 pt-5 border-t border-surface-100 flex flex-wrap items-center gap-3">
+                <span className="text-xs font-bold text-surface-500">Exámenes Internacionales:</span>
+                <button onClick={() => onNavigate('examenes')}
+                  className="text-xs font-semibold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full hover:bg-blue-100 transition-colors">
+                  SAT · {satSummary.attempts} prácticas · mejor {satSummary.best || '—'}/1600
+                </button>
+                <button onClick={() => onNavigate('examenes')}
+                  className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full hover:bg-emerald-100 transition-colors">
+                  TOEFL · {toeflSummary.attempts} prácticas · mejor {toeflSummary.best || '—'}/30
+                </button>
+              </div>
+            )}
+            {stats.totalLessons === 0 && examAttempts === 0 && (
               <p className="text-center text-surface-400 text-sm mt-4">
                 Completa tu primera lección para ver tu progreso aquí
               </p>
