@@ -62,6 +62,21 @@ export interface Settings {
   publicProfile: boolean;
 }
 
+export type ExamId = 'sat' | 'toefl';
+
+export interface ExamAttempt {
+  id: string;
+  exam: ExamId;
+  section: string;        // 'reading-writing' | 'math' | 'reading' | 'listening' | 'speaking' | 'writing'
+  mode: 'practica' | 'simulacro';
+  score: number;          // 0-100 (porcentaje o score normalizado)
+  scaledScore?: number;   // 400-1600 SAT / 0-120 TOEFL
+  correct?: number;
+  total?: number;
+  minutes: number;
+  date: string;
+}
+
 export interface StoreState {
   user: UserData | null;
   progress: { [courseId: string]: CourseProgress };
@@ -71,6 +86,7 @@ export interface StoreState {
   chatHistory: ChatMessage[];
   notifications: Notification[];
   studyPlans: StudyPlan[];
+  examAttempts: ExamAttempt[];
   settings: Settings;
 }
 
