@@ -62,6 +62,21 @@ export interface Settings {
   publicProfile: boolean;
 }
 
+export type ExamId = 'sat' | 'toefl';
+
+export interface ExamAttempt {
+  id: string;
+  exam: ExamId;
+  section: string;        // 'reading-writing' | 'math' | 'reading' | 'listening' | 'speaking' | 'writing'
+  mode: 'practica' | 'simulacro';
+  score: number;          // 0-100 (porcentaje o score normalizado)
+  scaledScore?: number;   // 400-1600 SAT / 0-120 TOEFL
+  correct?: number;
+  total?: number;
+  minutes: number;
+  date: string;
+}
+
 export interface StoreState {
   user: UserData | null;
   progress: { [courseId: string]: CourseProgress };
@@ -71,6 +86,7 @@ export interface StoreState {
   chatHistory: ChatMessage[];
   notifications: Notification[];
   studyPlans: StudyPlan[];
+  examAttempts: ExamAttempt[];
   settings: Settings;
 }
 
@@ -100,6 +116,7 @@ const defaultState: StoreState = {
     },
   ],
   studyPlans: [],
+  examAttempts: [],
   settings: {
     darkMode: false,
     language: 'es',
@@ -122,6 +139,7 @@ export function loadState(): StoreState {
       chatHistory: parsed.chatHistory && parsed.chatHistory.length > 0 ? parsed.chatHistory : defaultState.chatHistory,
       notifications: parsed.notifications || defaultState.notifications,
       studyPlans: parsed.studyPlans || [],
+      examAttempts: parsed.examAttempts || [],
     };
     return merged;
   } catch {
@@ -295,8 +313,51 @@ export function getWeeklyMinutes(): number[] {
       }
     });
   });
+
+  (state.examAttempts || []).forEach((a) => {
+    const d = new Date(a.date);
+    const diffDays = Math.floor((d.getTime() - monday.getTime()) / 86400000);
+    if (diffDays >= 0 && diffDays < 7) {
+      buckets[diffDays] += a.minutes;
+    }
+  });
   return buckets;
 }
+
+// ─── Exámenes Internacionales ────────────────────────────────────────────────
+export function recordExamAttempt(a: Omit<ExamAttempt, 'id' | 'date'>): StoreState {
+  const state = loadState();
+  state.examAttempts = [
+    ...(state.examAttempts || []),
+    { ...a, id: Math.random().toString(36).slice(2), date: new Date().toISOString() },
+  ].slice(-200);
+  state.xp += Math.round(20 + a.score * 0.4);
+  const today = new Date().toDateString();
+  if (state.lastStudyDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    state.streak = state.lastStudyDate === yesterday ? state.streak + 1 : 1;
+    state.lastStudyDate = today;
+  }
+  saveState(state);
+  return state;
+}
+
+export function getExamAttempts(state: StoreState, exam: ExamId, section?: string): ExamAttempt[] {
+  return (state.examAttempts || [])
+    .filter((a) => a.exam === exam && (!section || a.section === section))
+    .sort((x, y) => +new Date(x.date) - +new Date(y.date));
+}
+
+export function getExamSummary(state: StoreState, exam: ExamId) {
+  const attempts = getExamAttempts(state, exam);
+  const best = attempts.reduce((m, a) => Math.max(m, a.scaledScore ?? 0), 0);
+  const avg = attempts.length
+    ? Math.round(attempts.reduce((s, a) => s + a.score, 0) / attempts.length)
+    : 0;
+  const minutes = attempts.reduce((s, a) => s + a.minutes, 0);
+  return { attempts: attempts.length, best, avg, minutes, pct: Math.min(100, avg) };
+}
+
 
 export function getTotalStats(state: StoreState) {
   let totalLessons = 0;
