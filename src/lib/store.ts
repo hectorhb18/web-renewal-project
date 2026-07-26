@@ -116,6 +116,7 @@ const defaultState: StoreState = {
     },
   ],
   studyPlans: [],
+  examAttempts: [],
   settings: {
     darkMode: false,
     language: 'es',
