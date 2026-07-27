@@ -45,6 +45,7 @@ const EXAMS: {
 
 export default function ExamenesInternacionales({ state, onStateChange }: Props) {
   const [open, setOpen] = useState<ExamId | null>(null);
+  const [pathOpen, setPathOpen] = useState(false);
 
   if (open === 'sat') return <SATView state={state} onBack={() => setOpen(null)} onStateChange={onStateChange} />;
   if (open === 'toefl') return <ToeflView state={state} onBack={() => setOpen(null)} onStateChange={onStateChange} />;
@@ -60,7 +61,7 @@ export default function ExamenesInternacionales({ state, onStateChange }: Props)
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-5">
+      {!pathOpen && <div className="grid md:grid-cols-2 gap-5">
         {EXAMS.map((exam, i) => {
           const s = getExamSummary(state, exam.id);
           const pct = s.pct;
@@ -115,11 +116,11 @@ export default function ExamenesInternacionales({ state, onStateChange }: Props)
             </motion.button>
           );
         })}
-      </div>
+      </div>}
 
-      <Caminos state={state} onStateChange={onStateChange} />
+      <Caminos state={state} onStateChange={onStateChange} onOpenChange={setPathOpen} />
 
-      <div className="rounded-2xl border border-surface-100 dark:border-surface-800 bg-white dark:bg-surface-900 p-6">
+      {!pathOpen && <div className="rounded-2xl border border-surface-100 dark:border-surface-800 bg-white dark:bg-surface-900 p-6">
         <h2 className="text-sm font-bold text-surface-900 dark:text-white flex items-center gap-2 mb-2">
           <Sparkles className="w-4 h-4 text-accent-500" /> Cómo se registra tu progreso
         </h2>
@@ -127,7 +128,7 @@ export default function ExamenesInternacionales({ state, onStateChange }: Props)
           Cada práctica y simulacro suma minutos de estudio y XP, y aparece en <strong>Tu Progreso Semanal</strong> del
           dashboard. Los puntajes se escalan como en el examen real (200–800 por sección del SAT, 0–30 por destreza del TOEFL).
         </p>
-      </div>
+      </div>}
     </div>
   );
 }

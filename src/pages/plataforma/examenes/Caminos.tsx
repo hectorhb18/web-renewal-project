@@ -7,10 +7,16 @@ import { getAdmissionProgress, toggleAdmissionTask, type StoreState } from '../.
 interface Props {
   state: StoreState;
   onStateChange: () => void;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export default function Caminos({ state, onStateChange }: Props) {
+export default function Caminos({ state, onStateChange, onOpenChange }: Props) {
   const [open, setOpen] = useState<string | null>(null);
+  const setOpenPath = (id: string | null) => {
+    setOpen(id);
+    onOpenChange?.(id !== null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const uni = open ? getUniversityPath(open) : undefined;
 
   if (uni) {
@@ -19,7 +25,7 @@ export default function Caminos({ state, onStateChange }: Props) {
 
     return (
       <div className="space-y-6">
-        <button onClick={() => setOpen(null)}
+        <button onClick={() => setOpenPath(null)}
           className="flex items-center gap-1.5 text-sm font-semibold text-surface-500 hover:text-surface-800 dark:hover:text-surface-200">
           <ArrowLeft className="w-4 h-4" /> Volver a Caminos
         </button>
@@ -134,7 +140,7 @@ export default function Caminos({ state, onStateChange }: Props) {
             <motion.button key={u.id}
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
               whileHover={{ y: -4, boxShadow: '0 12px 30px rgba(0,0,0,0.08)' }}
-              onClick={() => setOpen(u.id)}
+              onClick={() => setOpenPath(u.id)}
               className="text-left bg-white dark:bg-surface-900 rounded-2xl border border-surface-100 dark:border-surface-800 shadow-sm p-6 transition-all">
               <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${u.color} flex items-center justify-center text-2xl mb-4 shadow-md`}>
                 {u.icon}
