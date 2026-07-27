@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Compass, Sparkles, ChevronRight, ChevronLeft, RefreshCw,
-  BookOpen, Briefcase, GraduationCap, ArrowLeft, Loader2,
-} from 'lucide-react';
+import { Compass, Sparkles, ChevronRight, ChevronLeft, RefreshCw, BookOpen, Briefcase, GraduationCap, ArrowLeft, Loader as Loader2 } from 'lucide-react';
 import { type StoreState, saveVocationalResult } from '../../lib/store';
 import {
   VOCATIONAL_QUESTIONS, RIASEC_LABELS, CAREERS,
@@ -88,7 +85,17 @@ export default function Carreras({ state, onStateChange }: Props) {
   // ── Detalle de una carrera ──────────────────────────────────────────────
   if (detail) {
     const career = getCareerById(detail);
-    if (!career) { setDetail(null); return null; }
+    if (!career) {
+      return (
+        <div className="space-y-6">
+          <button onClick={() => setDetail(null)}
+            className="flex items-center gap-1.5 text-sm font-semibold text-surface-500 hover:text-surface-800 dark:hover:text-surface-200">
+            <ArrowLeft className="w-4 h-4" /> Volver a Carreras
+          </button>
+          <p className="text-surface-500 text-sm">No se encontró la carrera seleccionada.</p>
+        </div>
+      );
+    }
     return (
       <div className="space-y-6">
         <button onClick={() => setDetail(null)}
@@ -248,7 +255,22 @@ export default function Carreras({ state, onStateChange }: Props) {
 
   // ── Resultados ───────────────────────────────────────────────────────────
   const result = state.vocationalTest;
-  if (!result) { setStage('intro'); return null; }
+  if (!result) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white flex items-center gap-2">
+            <Compass className="w-6 h-6 text-primary-500" /> Carreras
+          </h1>
+          <p className="text-surface-500 text-sm mt-1">Aún no tienes resultados. Realiza el test para descubrir tus carreras recomendadas.</p>
+        </div>
+        <button onClick={() => setStage('quiz')}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-br from-primary-600 to-accent-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all">
+          Empezar test <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    );
+  }
   const topCareers = result.careerIds.map(getCareerById).filter(Boolean) as typeof CAREERS;
 
   return (
