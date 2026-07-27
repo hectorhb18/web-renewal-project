@@ -71,16 +71,16 @@ export default function AsistenteIA() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4 flex-shrink-0">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-primary-600" />
             Asistente IA
           </h1>
-          <p className="text-surface-500 text-sm mt-0.5">
+          <p className="text-surface-500 dark:text-surface-400 text-sm mt-0.5">
             Te ayuda con Matemáticas, Física, Química, Historia, Comunicación e Inglés
           </p>
         </div>
         <button onClick={clearChat}
-          className="p-2.5 rounded-xl bg-surface-100 hover:bg-surface-200 text-surface-500 transition-colors"
+          className="p-2.5 rounded-xl bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 text-surface-500 dark:text-surface-400 transition-colors"
           title="Limpiar chat">
           <RefreshCw className="w-4 h-4" />
         </button>
@@ -104,13 +104,13 @@ export default function AsistenteIA() {
               <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                 msg.role === 'user'
                   ? 'bg-primary-600 text-white rounded-br-sm'
-                  : 'bg-white border border-surface-100 shadow-sm text-surface-800 rounded-bl-sm'
+                  : 'bg-white dark:bg-surface-900 border border-surface-100 dark:border-surface-800 shadow-sm text-surface-800 dark:text-surface-200 rounded-bl-sm'
               }`}>
                 <p dangerouslySetInnerHTML={{ __html: renderText(msg.text) }} />
               </div>
               {msg.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-surface-200 flex items-center justify-center ml-2 flex-shrink-0 mt-1">
-                  <BookOpen className="w-4 h-4 text-surface-600" />
+                <div className="w-8 h-8 rounded-full bg-surface-200 dark:bg-surface-800 flex items-center justify-center ml-2 flex-shrink-0 mt-1">
+                  <BookOpen className="w-4 h-4 text-surface-600 dark:text-surface-300" />
                 </div>
               )}
             </motion.div>
@@ -122,7 +122,7 @@ export default function AsistenteIA() {
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mr-2 flex-shrink-0">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <div className="bg-white border border-surface-100 shadow-sm rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1.5 items-center">
+            <div className="bg-white dark:bg-surface-900 border border-surface-100 dark:border-surface-800 shadow-sm rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1.5 items-center">
               {[0, 0.15, 0.3].map((d, i) => (
                 <motion.div key={i} className="w-2 h-2 bg-primary-400 rounded-full"
                   animate={{ y: [0, -6, 0] }}
@@ -137,11 +137,11 @@ export default function AsistenteIA() {
       {/* Suggestions */}
       {messages.length <= 2 && (
         <div className="mb-4 flex-shrink-0">
-          <p className="text-xs text-surface-400 mb-2 font-medium">Prueba preguntando:</p>
+          <p className="text-xs text-surface-400 dark:text-surface-500 mb-2 font-medium">Prueba preguntando:</p>
           <div className="flex flex-wrap gap-2">
             {SUGGESTED.map((s) => (
               <button key={s} onClick={() => send(s)}
-                className="text-xs bg-white border border-surface-200 hover:border-primary-300 hover:bg-primary-50 text-surface-600 hover:text-primary-700 px-3 py-1.5 rounded-full transition-all">
+                className="text-xs bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-700 hover:border-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 text-surface-600 dark:text-surface-300 hover:text-primary-700 dark:hover:text-primary-300 px-3 py-1.5 rounded-full transition-all">
                 {s}
               </button>
             ))}
@@ -157,7 +157,7 @@ export default function AsistenteIA() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Escribe tu pregunta sobre cualquier materia..."
           disabled={typing}
-          className="flex-1 bg-white border border-surface-200 rounded-2xl px-5 py-3.5 text-sm text-surface-900 placeholder-surface-400 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all disabled:opacity-60"
+          className="flex-1 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-2xl px-5 py-3.5 text-sm text-surface-900 dark:text-white placeholder-surface-400 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all disabled:opacity-60"
         />
         <button type="submit" disabled={!input.trim() || typing}
           className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-600 to-accent-500 flex items-center justify-center text-white shadow-md hover:shadow-lg transition-all disabled:opacity-50 flex-shrink-0">
