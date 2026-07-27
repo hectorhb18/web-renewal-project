@@ -1,16 +1,39 @@
-// ─── Studymind AI Engine — local educational tutor ──────────────────────────
+// ─── Studymind AI Engine — tutor con IA (con respaldo local) ───────────────
 
 export async function getAIResponse(
   userMessage: string,
-  _history: Array<{ role: 'user' | 'model'; text: string }> = []
+  history: Array<{ role: 'user' | 'model'; text: string }> = []
 ): Promise<string> {
   try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: userMessage, history }),
+    });
+
+    if (res.status === 429) {
+      return '⏳ Demasiadas consultas seguidas. Espera unos segundos y vuelve a intentarlo.';
+    }
+    if (res.status === 402) {
+      return '💳 Se agotaron los créditos de IA del espacio de trabajo. Añádelos para seguir usando el asistente.';
+    }
+
+    if (res.ok) {
+      const data = (await res.json()) as { text?: string };
+      if (data.text && data.text.trim()) return data.text;
+    }
+
     return generateLocalResponse(userMessage);
   } catch (err) {
     console.error('[aiEngine] Error:', err);
-    return '⚠️ Ocurrió un error al procesar tu pregunta. Inténtalo de nuevo.';
+    try {
+      return generateLocalResponse(userMessage);
+    } catch {
+      return '⚠️ Ocurrió un error al procesar tu pregunta. Inténtalo de nuevo.';
+    }
   }
 }
+
 
 function generateLocalResponse(msg: string): string {
   const q = msg.toLowerCase().trim();
