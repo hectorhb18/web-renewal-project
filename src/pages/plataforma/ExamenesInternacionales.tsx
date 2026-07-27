@@ -4,6 +4,7 @@ import { ChevronRight, CheckCircle2, Globe, Timer, Sparkles } from 'lucide-react
 import { getExamSummary, type ExamId, type StoreState } from '../../lib/store';
 import SATView from './examenes/SATView';
 import ToeflView from './examenes/ToeflView';
+import Caminos from './examenes/Caminos';
 
 interface Props {
   state: StoreState;
@@ -115,6 +116,8 @@ export default function ExamenesInternacionales({ state, onStateChange }: Props)
           );
         })}
       </div>
+
+      <Caminos state={state} onStateChange={onStateChange} />
 
       <div className="rounded-2xl border border-surface-100 dark:border-surface-800 bg-white dark:bg-surface-900 p-6">
         <h2 className="text-sm font-bold text-surface-900 dark:text-white flex items-center gap-2 mb-2">
