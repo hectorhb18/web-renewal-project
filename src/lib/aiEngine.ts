@@ -1,6 +1,6 @@
 // ─── Studymind AI Engine — Gemini powered ─────────────────────────────────────
 
-const API_BASE = `${window.location.origin}/api`;
+const API_BASE = typeof window !== 'undefined' ? `${window.location.origin}/api` : '/api';
 
 export async function getAIResponse(
   userMessage: string,
