@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   BookOpen, BarChart3, Sparkles, Calendar, Award,
   Menu, X, Settings, ChevronRight, LogOut, LibraryBig, Zap,
-  FlaskConical, User, Wand2, Bell, Globe,
+  FlaskConical, User, Wand2, Bell, Globe, Compass,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { loadState, saveUser, type StoreState } from '../lib/store';
@@ -20,11 +20,12 @@ import PlanEstudio from './plataforma/PlanEstudio';
 import Perfil from './plataforma/Perfil';
 import Configuracion from './plataforma/Configuracion';
 import Notificaciones from './plataforma/Notificaciones';
+import Carreras from './plataforma/Carreras';
 
 type View =
   | 'dashboard' | 'cursos' | 'curso-detail' | 'plan' | 'asistente'
   | 'horario' | 'banco' | 'tacticas' | 'copiloto' | 'examenes' | 'logros'
-  | 'notif' | 'perfil' | 'config';
+  | 'carreras' | 'notif' | 'perfil' | 'config';
 
 function getParam(key: string) {
   try {
@@ -49,6 +50,7 @@ const NAV_MAIN: { id: View; label: string; icon: any }[] = [
   { id: 'tacticas',  label: 'Tácticas de Ciencia', icon: Zap },
   { id: 'copiloto',  label: 'Copiloto IB',       icon: FlaskConical },
   { id: 'examenes',  label: 'Exámenes Internacionales', icon: Globe },
+  { id: 'carreras',  label: 'Carreras',          icon: Compass },
   { id: 'asistente', label: 'Asistente IA',      icon: Sparkles },
   { id: 'horario',   label: 'Horario',           icon: Calendar },
   { id: 'logros',    label: 'Logros',            icon: Award },
@@ -199,6 +201,7 @@ export default function Plataforma() {
       case 'tacticas':     return <TacticasCiencia onStateChange={refreshState} />;
       case 'copiloto':     return <CopilotoInvestigacion />;
       case 'examenes':     return <ExamenesInternacionales state={state} onStateChange={refreshState} />;
+      case 'carreras':     return <Carreras state={state} onStateChange={refreshState} />;
       case 'notif':        return <Notificaciones onStateChange={refreshState} />;
       case 'perfil':       return <Perfil onStateChange={refreshState} />;
       case 'config':       return <Configuracion darkMode={darkMode} onDarkModeChange={setDarkMode} onStateChange={refreshState} />;

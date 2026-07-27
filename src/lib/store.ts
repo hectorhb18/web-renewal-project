@@ -64,6 +64,14 @@ export interface Settings {
 
 export type ExamId = 'sat' | 'toefl';
 
+export interface VocationalResult {
+  scores: Record<string, number>;
+  topCode: string;
+  careerIds: string[];
+  aiSummary: string;
+  completedAt: string;
+}
+
 export interface ExamAttempt {
   id: string;
   exam: ExamId;
@@ -87,6 +95,7 @@ export interface StoreState {
   notifications: Notification[];
   studyPlans: StudyPlan[];
   examAttempts: ExamAttempt[];
+  vocationalTest: VocationalResult | null;
   settings: Settings;
 }
 
@@ -117,6 +126,7 @@ const defaultState: StoreState = {
   ],
   studyPlans: [],
   examAttempts: [],
+  vocationalTest: null,
   settings: {
     darkMode: false,
     language: 'es',
@@ -140,6 +150,7 @@ export function loadState(): StoreState {
       notifications: parsed.notifications || defaultState.notifications,
       studyPlans: parsed.studyPlans || [],
       examAttempts: parsed.examAttempts || [],
+      vocationalTest: parsed.vocationalTest ?? null,
     };
     return merged;
   } catch {
@@ -467,6 +478,20 @@ export const ACHIEVEMENTS: Achievement[] = [
     check: (s) => s.studyPlans.length > 0,
   },
 ];
+
+export function saveVocationalResult(result: VocationalResult): StoreState {
+  const state = loadState();
+  state.vocationalTest = result;
+  state.xp += 100;
+  const today = new Date().toDateString();
+  if (state.lastStudyDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    state.streak = state.lastStudyDate === yesterday ? state.streak + 1 : 1;
+    state.lastStudyDate = today;
+  }
+  saveState(state);
+  return state;
+}
 
 export function getUnlockedAchievements(state: StoreState): string[] {
   return ACHIEVEMENTS.filter((a) => a.check(state)).map((a) => a.id);
