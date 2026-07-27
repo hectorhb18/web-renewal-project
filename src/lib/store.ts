@@ -95,8 +95,10 @@ export interface StoreState {
   notifications: Notification[];
   studyPlans: StudyPlan[];
   examAttempts: ExamAttempt[];
+  admissionChecklist: { [uniId: string]: string[] };
   vocationalTest: VocationalResult | null;
   settings: Settings;
+
 }
 
 const STORAGE_KEY = 'studymind_state';
