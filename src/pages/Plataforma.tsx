@@ -1,9 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  BookOpen, BarChart3, Sparkles, Calendar, Award,
-  Menu, X, Settings, ChevronRight, LogOut, LibraryBig, Zap,
-  FlaskConical, User, Wand2, Bell, Globe, Compass,
-} from 'lucide-react';
+import { BookOpen, ChartBar as BarChart3, Sparkles, Calendar, Award, Menu, X, Settings, ChevronRight, LogOut, LibraryBig, Zap, FlaskConical, User, Wand as Wand2, Bell, Globe, Compass } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { loadState, saveUser, type StoreState } from '../lib/store';
 import Dashboard from './plataforma/Dashboard';
