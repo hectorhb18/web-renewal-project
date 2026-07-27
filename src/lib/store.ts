@@ -128,6 +128,7 @@ const defaultState: StoreState = {
   ],
   studyPlans: [],
   examAttempts: [],
+  admissionChecklist: {},
   vocationalTest: null,
   settings: {
     darkMode: false,
@@ -152,6 +153,7 @@ export function loadState(): StoreState {
       notifications: parsed.notifications || defaultState.notifications,
       studyPlans: parsed.studyPlans || [],
       examAttempts: parsed.examAttempts || [],
+      admissionChecklist: parsed.admissionChecklist || {},
       vocationalTest: parsed.vocationalTest ?? null,
     };
     return merged;
@@ -480,6 +482,21 @@ export const ACHIEVEMENTS: Achievement[] = [
     check: (s) => s.studyPlans.length > 0,
   },
 ];
+
+export function toggleAdmissionTask(uniId: string, taskId: string): StoreState {
+  const state = loadState();
+  const done = state.admissionChecklist[uniId] || [];
+  state.admissionChecklist[uniId] = done.includes(taskId)
+    ? done.filter((t) => t !== taskId)
+    : [...done, taskId];
+  saveState(state);
+  return state;
+}
+
+export function getAdmissionProgress(state: StoreState, uniId: string, total: number) {
+  const done = (state.admissionChecklist[uniId] || []).length;
+  return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
+}
 
 export function saveVocationalResult(result: VocationalResult): StoreState {
   const state = loadState();
